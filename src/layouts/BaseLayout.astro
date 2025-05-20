@@ -13,5 +13,16 @@ import "../styles/global.css";
     <main class="max-w-xl mx-auto px-6 py-24">
       <slot />
     </main>
+    <footer class="text-center text-sm text-gray-500 pb-8">
+      © {new Date().getFullYear()} Thomas Pregenzer ·
+      <a
+        href="https://github.com/PregOfficial/pregofficial.github.io"
+        class="underline hover:text-gray-700"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View source
+      </a>
+    </footer>
   </body>
 </html>
