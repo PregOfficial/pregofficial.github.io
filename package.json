@@ -1,7 +1,8 @@
 {
-  "name": "personal-website",
+  "name": "thomas-personal-website",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -9,6 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.7.13"
+    "@tailwindcss/vite": "^4.1.7",
+    "astro": "^5.7.13",
+    "tailwindcss": "^4.1.7"
   }
 }
