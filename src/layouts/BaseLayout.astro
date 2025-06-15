@@ -8,21 +8,93 @@ import "../styles/global.css";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thomas Pregenzer</title>
+
+    <script is:inline>
+      const theme = localStorage.theme;
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (theme === "dark" || (!theme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
   </head>
-  <body class="bg-white text-black font-serif">
-    <main class="max-w-xl mx-auto px-6 py-24">
+
+  <body
+    class="font-serif bg-white text-black dark:bg-black dark:text-white transition-colors duration-300"
+  >
+    <div class="flex justify-end p-4">
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          id="themeToggle"
+          class="sr-only peer"
+          onchange="toggleTheme()"
+        />
+        <div
+          class="w-14 h-8 bg-gray-300 rounded-full peer dark:bg-gray-700 peer-checked:bg-gray-600 transition-colors duration-300"
+        >
+        </div>
+        <span
+          id="themeIcon"
+          class="absolute left-0.5 top-0.5 w-7 h-7 bg-white dark:bg-black border border-gray-300 dark:border-gray-600 rounded-full peer-checked:translate-x-6 transform transition-transform duration-300 flex items-center justify-center text-sm"
+        >
+          🌙
+        </span>
+      </label>
+    </div>
+
+    <main class="max-w-xl mx-auto px-6 py-12">
       <slot />
     </main>
-    <footer class="text-center text-sm text-gray-500 pb-8">
-      © {new Date().getFullYear()} Thomas Pregenzer ·
+
+    <footer class="text-center text-sm text-gray-500 dark:text-gray-400 pb-8">
+      © 2024 Thomas Pregenzer ·
       <a
         href="https://github.com/PregOfficial/pregofficial.github.io"
-        class="underline hover:text-gray-700"
+        class="underline hover:text-gray-700 dark:hover:text-gray-300"
         target="_blank"
         rel="noopener noreferrer"
       >
         View source
       </a>
     </footer>
+
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", () => {
+        const html = document.documentElement;
+        const toggleInput = document.getElementById("themeToggle");
+        const themeIcon = document.getElementById("themeIcon");
+
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const savedTheme = localStorage.theme;
+        const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+
+        function updateIcon(isDark) {
+          themeIcon.textContent = isDark ? "🌞" : "🌙";
+        }
+
+        if (isDark) {
+          html.classList.add("dark");
+          toggleInput.checked = true;
+        } else {
+          html.classList.remove("dark");
+          toggleInput.checked = false;
+        }
+
+        updateIcon(isDark);
+
+        window.toggleTheme = function () {
+          const isDark = html.classList.contains("dark");
+          html.classList.toggle("dark");
+          localStorage.theme = isDark ? "light" : "dark";
+          updateIcon(!isDark);
+        };
+      });
+    </script>
   </body>
 </html>
